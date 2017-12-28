@@ -1,10 +1,10 @@
 {
     "compilerOptions": {
         "module": "system",
-        //"noImplicitAny": true,
+        "noImplicitAny": true,
         "removeComments": true,
         "preserveConstEnums": true,
-        "outFile": "build/app.js",
+        "outFile": "build/app.js"
         //"sourceMap": true
     },
     "include": [
