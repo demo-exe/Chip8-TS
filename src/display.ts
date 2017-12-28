@@ -26,14 +26,11 @@ class Display {
         }
     }
 
-    public draw() {
-        this.grMemory[0][1] = 0b101;
-
+    public draw() { //draws full frame to screen
         this.ctx.fillStyle = '#000000';
-        this.ctx.fillRect(0, 0, 640, 320);
+        this.ctx.fillRect(0, 0, 640, 320); // clear screen with black
 
         this.ctx.fillStyle = '#00ff00';
-
 
         for(let y=0; y<32; y++) { //for every row
             for(let w=0; w<2; w++) { //for every collumn
