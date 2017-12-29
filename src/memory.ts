@@ -7,8 +7,7 @@ class Memory {
     private PC: number;
     private SP: number;
 
-    constructor(canvas: HTMLCanvasElement) {
-
+    constructor() {
         //initialise memory
         this.ram = [];
         for(let i=0; i<1024; i++) {
@@ -24,7 +23,6 @@ class Memory {
         this.Tregisters = 0;
         this.PC = 0;
         this.SP = 0;
-
     }
 
     public getPC(): number {
@@ -35,6 +33,11 @@ class Memory {
         this.PC = newPC;
     }
 
+    public getVReg(reg: number) {
+        let index = Math.floor(reg / 4);
+        let sub = 3 - reg % 4;
+        return ((this.Vregisters[index] & (0xFF << 8*sub)) >>> 8*sub);
+    }
 
 
     public clear_memory() {
