@@ -46,6 +46,15 @@ class Memory {
         this.Vregisters[index] = (this.Vregisters[index] | (value << 8*sub));
 
     }
+
+    public getIReg(): number {
+        return this.Iregister;
+    }
+
+    public setIReg(value: number) {
+        this.Iregister = value;
+    }
+
     public clear_memory() {
         for(let i=0; i<1024; i++) { 
             this.ram[i] = 0;
