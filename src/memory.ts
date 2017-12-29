@@ -33,13 +33,19 @@ class Memory {
         this.PC = newPC;
     }
 
-    public getVReg(reg: number) {
+    public getVReg(reg: number): number {
         let index = Math.floor(reg / 4);
         let sub = 3 - reg % 4;
         return ((this.Vregisters[index] & (0xFF << 8*sub)) >>> 8*sub);
     }
 
+    public setVReg(reg: number, value: number) {
+        let index = Math.floor(reg / 4);
+        let sub = 3 - reg % 4;
+        this.Vregisters[index] = (this.Vregisters[index] | ~(0xFF << 8*sub));
+        this.Vregisters[index] = (this.Vregisters[index] | (value << 8*sub));
 
+    }
     public clear_memory() {
         for(let i=0; i<1024; i++) { 
             this.ram[i] = 0;
