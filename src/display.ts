@@ -8,17 +8,15 @@ class Display {
 
         //initialise memory
         this.grMemory = [];
-        for(let w=0; w<2; w++) //for every collumn
-        {
+        for(let w=0; w<2; w++) { //for every collumn
             this.grMemory[w] = [];
-            for(let y=0; y<32; y++) //for every row
-            {
+            for(let y=0; y<32; y++) { //for every row
                 this.grMemory[w][y] = 0;
             }
         }
     }
 
-    public clean_display() {
+    public clear_display() {
         for(let w=0; w<2; w++) { //for every collumn
             for(let y=0; y<32; y++) { //for every row
                 this.grMemory[w][y] = 0;
