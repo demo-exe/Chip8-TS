@@ -1,6 +1,7 @@
 dbg:
-	@echo "Copying HTML ..."
+	@echo "Copying files ..."
 	@cp src/index.html build/index.html
+	@cp src/wad.min.js build/wad.min.js
 	@echo "Compiling TS -> JS ..."
 	@tsc
 
