@@ -1,11 +1,18 @@
+declare var Wad: any; //from Wad library
+
 class Memory {
 
     private ram: number[]; 
     private Vregisters: number[]; 
     private Iregister: number;
-    private Tregisters: number;
-    private PC: number;
-    private SP: number;
+    private Tregister: number;
+    private Sregister: number;
+    private PCregister: number;
+    private SPregister: number;
+
+    private buzzer: any;
+    private buzzer_playing: boolean;
+    private timer_i: number;
 
     constructor() {
         //initialise memory
@@ -20,9 +27,15 @@ class Memory {
         }
 
         this.Iregister = 0;
-        this.Tregisters = 0;
-        this.PC = 0;
-        this.SP = 0;
+        this.Tregister = 0;
+        this.Sregister = 0;
+        this.PCregister = 0;
+        this.SPregister = 0;
+
+        this.buzzer = new Wad({source : 'sawtooth', volume : .2, env: {attack  : 0.0,hold:20}});
+        this.buzzer_playing = false;
+        let _this = this;
+        this.timer_i = setInterval(function() {_this._timerTick()} , 1000/60); //60Hz
     }
 
     public getVReg(reg: number): number {
@@ -47,37 +60,35 @@ class Memory {
     }
 
     public setTimeDelay(val: number) {
-        this.Tregisters = (this.Tregisters | ~(0xFF << 8*3));
-        this.Tregisters = (this.Tregisters | (val << 8*3));
+        this.Tregister = val;
     }
 
     public getTimeDelay(): number {
-        return this.Tregisters & (0xFF << 8*3);
+        return this.Tregister;
     }
 
     public setSoundDelay(val: number) {
-        this.Tregisters = (this.Tregisters | ~(0xFF << 8*2));
-        this.Tregisters = (this.Tregisters | (val << 8*2));
+        this.Sregister = val;
     }
 
     private getSoundDelay(): number {
-        return this.Tregisters & (0xFF << 8*2);
+        return this.Sregister;
     }
 
     public getPC(): number {
-        return this.PC;
+        return this.PCregister;
     }
 
     public setPC(newPC: number) {
-        this.PC = newPC;
+        this.PCregister = newPC;
     }
 
     public getSP(): number {
-        return this.SP;
+        return this.SPregister;
     }
 
     public setSP(newSP: number) {
-        this.SP = newSP;
+        this.SPregister = newSP;
     }
 
     public clear_memory() {
@@ -99,4 +110,25 @@ class Memory {
         this.ram[index] = (this.ram[index] | (value << 8*sub));
     }
 
+    private _timerTick() {
+        let t = this.getTimeDelay();
+        let s = this.getSoundDelay();
+        if(t > 0) {
+            t --;
+            this.setTimeDelay(t);
+        }
+        if(s > 0) {
+            if(!this.buzzer_playing) {
+                this.buzzer.play();
+                this.buzzer_playing = true;
+            }
+            s --;
+            this.setSoundDelay(s);
+        } else {
+            if(this.buzzer_playing) {
+                this.buzzer.stop();
+                this.buzzer_playing = false;
+            }
+        }
+    }
 }
