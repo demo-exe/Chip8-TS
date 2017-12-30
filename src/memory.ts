@@ -36,7 +36,6 @@ class Memory {
         let sub = 3 - reg % 4;
         this.Vregisters[index] = (this.Vregisters[index] | ~(0xFF << 8*sub));
         this.Vregisters[index] = (this.Vregisters[index] | (value << 8*sub));
-
     }
 
     public getIReg(): number {
@@ -87,5 +86,17 @@ class Memory {
         }
     }
 
+    public getMem(pos: number): number {
+        let index = Math.floor(pos / 4);
+        let sub = 3 - pos % 4;
+        return ((this.ram[index] & (0xFF << 8*sub)) >>> 8*sub);
+    }
+
+    public setMem(pos: number, value: number) {
+        let index = Math.floor(pos / 4);
+        let sub = 3 - pos % 4;
+        this.ram[index] = (this.ram[index] | ~(0xFF << 8*sub));
+        this.ram[index] = (this.ram[index] | (value << 8*sub));
+    }
 
 }
