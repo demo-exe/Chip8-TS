@@ -1,8 +1,8 @@
-/// <reference path="memory.ts" />
+/// <reference path="../memory/memory.interface.ts" />
 class Loader {
-    private memory: Memory;
+    private memory: MemoryInterface;
 
-    constructor(mem: Memory) {
+    constructor(mem: MemoryInterface) {
       this.memory = mem;
     }
 
